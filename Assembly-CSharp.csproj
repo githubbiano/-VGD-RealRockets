@@ -63,9 +63,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\CameraLook.cs" />
-    <Compile Include="Assets\CameraTurning.cs" />
+    <Compile Include="Assets\Scripts\CameraLook.cs" />
+    <Compile Include="Assets\Scripts\CameraTurning.cs" />
+    <Compile Include="Assets\Scripts\CharacterControls.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Scripts\LockMode.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>D:/Unity/repository VGD/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>

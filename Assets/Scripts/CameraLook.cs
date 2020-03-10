@@ -12,9 +12,9 @@ public class CameraLook : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
-        //Vector3 look = new Vector3(target.transform.position.x, this.transform.position.y, target.transform.position.z);
+        //make camera look at "target"... target will be set somewhere else and can only be camerafocus or ball
         transform.LookAt(target.transform.position);
     }
 }

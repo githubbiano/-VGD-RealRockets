@@ -6,11 +6,15 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     string scene;
+    private float gravity;
+    private float speed;
     // Start is called before the first frame update
     void Start()
     {
         scene = "SampleScene";//Scena di test
         StartCoroutine(LoadScene(scene));
+        gravity = 7;
+        speed = 5;
     }
 
 
@@ -18,6 +22,23 @@ public class GameManager : MonoBehaviour
     void Update()
     {
 
+    }
+
+    public float getGravity()
+    {
+        return this.gravity;
+    }
+    public void setGravity(float g)
+    {
+        this.gravity = g;
+    }
+    public float getSpeed()
+    {
+        return this.speed;
+    }
+    public void setSpeed(float s)
+    {
+        this.speed = s;
     }
 
     IEnumerator LoadScene(string scene) //Utile per capire quando una scena può essere settata come attiva, la scena da controllare viene passata in input come stringa ed appena è pronta viene
