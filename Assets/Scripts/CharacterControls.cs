@@ -12,6 +12,9 @@ public class CharacterControls : MonoBehaviour
     private float speed;
     private CharacterController cc;
     private float GRAVITY;
+    private float actualSpeed;
+    private float curForSpeed;
+    private float curSidSpeed;
 
     // Start is called before the first frame update
     void Start()
@@ -36,8 +39,8 @@ public class CharacterControls : MonoBehaviour
         if (!isLocked())
         {
             //get forward and side motion
-            float curForSpeed = Input.GetAxis("Vertical") * speed * Time.deltaTime;
-            float curSidSpeed = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
+            curForSpeed = Input.GetAxis("Vertical") * speed * Time.deltaTime;
+            curSidSpeed = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
             Vector3 moveDirection;
             //get camera forward vector and transform it in world direction
             Vector3 forward = cam.transform.TransformDirection(Vector3.forward).normalized;//direzione frontale
@@ -45,21 +48,36 @@ public class CharacterControls : MonoBehaviour
             forward.y = 0;
             //same as above but side axis is consistent, we don't need to adjust it to 2d
             Vector3 side = cam.transform.TransformDirection(Vector3.right).normalized;//direzione laterale
+            actualSpeed = curSidSpeed + curForSpeed;//used on animator
             //interpolate movemente to make it smoother
             moveDirection =Vector3.Lerp(transform.position, side * curSidSpeed + forward * curForSpeed, 1f);
             //apply gravity
             moveDirection.y -= GRAVITY * Time.deltaTime;
+            //rotate towards movement direction
+            Vector3 newDir = Vector3.RotateTowards(transform.forward, side * curSidSpeed + forward * curForSpeed, 10.0f, 0.0f);
+            transform.rotation = Quaternion.LookRotation(newDir);
             //apply movement
             cc.Move(moveDirection);
+            
+
         }
         else//movement is relative to character
         {
 
         }
     }
+    private void LateUpdate()
+    {
+        
+    }
+
 
     public bool isLocked()
     {
         return this.lock_ball;
+    }
+    public float getActualSpeed()
+    {
+        return actualSpeed;
     }
 }

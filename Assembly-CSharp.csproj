@@ -63,8 +63,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Movimento.cs" />
-    <Compile Include="Assets\Scripts\CameraLook.cs" />
     <Compile Include="Assets\Scripts\CameraTurning.cs" />
     <Compile Include="Assets\Scripts\CharacterControls.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />

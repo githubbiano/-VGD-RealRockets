@@ -13,12 +13,14 @@ public class CameraTurning : MonoBehaviour
     private Vector3 RESET_OFFSET;
     private float speed;
     private Vector3 offset;
+    private GameObject target;
     
     private bool flag_target_changed;
 
     // Start is called before the first frame update
     void Start()
     {
+        target = focus;
         RESET_POSITION = transform.localPosition;
         offset = EXACT.position - focus.transform.position;
         RESET_OFFSET = offset;
@@ -27,7 +29,7 @@ public class CameraTurning : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         
         if (!chara.isLocked())
@@ -35,7 +37,7 @@ public class CameraTurning : MonoBehaviour
             if (flag_target_changed)//avoids multiple executions
             {
                 //change target to look at
-                gameObject.GetComponent<CameraLook>().target = focus;
+                target = focus;
                 //reset camera position when unlocking
                 offset = RESET_OFFSET; 
                 transform.localPosition = RESET_POSITION;
@@ -61,7 +63,7 @@ public class CameraTurning : MonoBehaviour
             if (!flag_target_changed)//avoids multiple executions
             {
                 //change target to look at
-                gameObject.GetComponent<CameraLook>().target = ball;
+                target = ball;
                 //reset camera position when unlocking
                 offset = RESET_OFFSET;
                 transform.localPosition = RESET_POSITION;
@@ -86,6 +88,7 @@ public class CameraTurning : MonoBehaviour
             //        }
             //    }
         }
+        transform.LookAt(target.transform.position);
     }
 
     //reposition camera to avoid clipping

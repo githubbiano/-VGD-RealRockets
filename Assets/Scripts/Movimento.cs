@@ -5,7 +5,8 @@ using UnityEngine;
 public class Movimento : MonoBehaviour
 {
     // Start is called before the first frame update
-    Animator anim;
+    private Animator anim;
+    private float runAnimSpeedMult;
 
     //hashing delle stringhe in numeri -> confronti molto piu rapidi
 
@@ -20,11 +21,12 @@ public class Movimento : MonoBehaviour
     int nameStatoCorrente = Animator.StringToHash("Base Layer.Armature|Fly");
     void Start()
     {
+        runAnimSpeedMult = 2.0f;//run animation speed
         anim = GetComponent<Animator>();
+        anim.SetFloat("runMul", runAnimSpeedMult);//set run animation speed
     }
 
     // Update is called once per frame
-    [System.Obsolete]
     void Update()
     {
         float movimento = Input.GetAxis("Vertical");
@@ -32,7 +34,7 @@ public class Movimento : MonoBehaviour
 
         AnimatorStateInfo statoCorrente = anim.GetCurrentAnimatorStateInfo(0);
 
-        if (statoCorrente.nameHash == nameStatoCorrente)
+        if (statoCorrente.fullPathHash == nameStatoCorrente)
         {
             if (Input.GetKeyDown(KeyCode.J))
                 anim.SetTrigger(hash_trigger_tempCrash);
