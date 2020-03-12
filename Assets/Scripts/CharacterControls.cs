@@ -35,40 +35,38 @@ public class CharacterControls : MonoBehaviour
         {
             lock_ball = !lock_ball;
         }
-        //motion when ball is not locked (movement is relative to camera)
-        if (!isLocked())
-        {
-            //get forward and side motion
-            curForSpeed = Input.GetAxis("Vertical") * speed * Time.deltaTime;
-            curSidSpeed = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
-            Vector3 moveDirection;
-            //get camera forward vector and transform it in world direction
-            Vector3 forward = cam.transform.TransformDirection(Vector3.forward).normalized;//direzione frontale
-            //set forward y to 0 so that movement is 2d only (since camera can look up or down, we only want forward and side)
-            forward.y = 0;
-            //same as above but side axis is consistent, we don't need to adjust it to 2d
-            Vector3 side = cam.transform.TransformDirection(Vector3.right).normalized;//direzione laterale
-            actualSpeed = curSidSpeed + curForSpeed;//used on animator
-            //interpolate movemente to make it smoother
-            moveDirection =Vector3.Lerp(transform.position, side * curSidSpeed + forward * curForSpeed, 1f);
-            //apply gravity
-            moveDirection.y -= GRAVITY * Time.deltaTime;
-            //rotate towards movement direction
-            Vector3 newDir = Vector3.RotateTowards(transform.forward, side * curSidSpeed + forward * curForSpeed, 10.0f, 0.0f);
-            transform.rotation = Quaternion.LookRotation(newDir);
-            //apply movement
-            cc.Move(moveDirection);
-            
-
-        }
-        else//movement is relative to character
-        {
-
-        }
+        //get forward and side motion
+        curForSpeed = Input.GetAxis("Vertical") * speed * Time.deltaTime;
+        curSidSpeed = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
+        Vector3 moveDirection;
+        //get camera forward vector and transform it in world direction
+        Vector3 forward = cam.transform.TransformDirection(Vector3.forward).normalized;//direzione frontale
+        //set forward y to 0 so that movement is 2d only (since camera can look up or down, we only want forward and side)
+        forward.y = 0;
+        //same as above but side axis is consistent, we don't need to adjust it to 2d
+        Vector3 side = cam.transform.TransformDirection(Vector3.right).normalized;//direzione laterale
+        actualSpeed = curSidSpeed + curForSpeed;//used on animator
+        //interpolate movemente to make it smoother
+        moveDirection =Vector3.Lerp(transform.position, side * curSidSpeed + forward * curForSpeed, 1f);
+        //apply gravity
+        moveDirection.y -= GRAVITY * Time.deltaTime;
+        //apply movement
+        cc.Move(moveDirection);
+        
     }
     private void LateUpdate()
     {
-        
+        //rotate towards movement direction
+        //this is in LateUpdate to avoid camera jittering
+        //get camera forward vector and transform it in world direction
+        Vector3 forward = cam.transform.TransformDirection(Vector3.forward).normalized;//direzione frontale
+        //set forward y to 0 so that movement is 2d only (since camera can look up or down, we only want forward and side)
+        forward.y = 0;
+        //same as above but side axis is consistent, we don't need to adjust it to 2d
+        Vector3 side = cam.transform.TransformDirection(Vector3.right).normalized;//direzione laterale
+        //rotate towards movement direction
+        Vector3 newDir = Vector3.RotateTowards(transform.forward, side * curSidSpeed + forward * curForSpeed, 10.0f, 0.0f);
+        transform.rotation = Quaternion.LookRotation(newDir);
     }
 
 
