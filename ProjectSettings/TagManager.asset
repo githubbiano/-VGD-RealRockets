@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Raycast
+  - CharController
   layers:
   - Default
   - TransparentFX

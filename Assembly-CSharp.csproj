@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\CameraTurning.cs" />
     <Compile Include="Assets\Scripts\CharacterControls.cs" />
+    <Compile Include="Assets\Scripts\CharacterManager.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\LockMode.cs" />
     <Compile Include="Assets\Scripts\Movimento.cs" />

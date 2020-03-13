@@ -21,7 +21,7 @@ public class Movimento : MonoBehaviour
     int nameStatoCorrente = Animator.StringToHash("Base Layer.Armature|Fly");
     void Start()
     {
-        runAnimSpeedMult = 2.0f;//run animation speed
+        runAnimSpeedMult = 1.8f;//run animation speed
         anim = GetComponent<Animator>();
         anim.SetFloat("runMul", runAnimSpeedMult);//set run animation speed
     }
