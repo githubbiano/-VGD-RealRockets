@@ -5,14 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    string scene;
     private float gravity;
     // Start is called before the first frame update
     void Start()
     {
-        scene = "SampleScene";//Scena di test
-        StartCoroutine(LoadScene(scene)); //UNCOMMENT BEFORE RELEASE
         gravity = 120.0f;
+        string mainScene = "SampleScene";//Debug scene
+        LoadNextScene(mainScene);
     }
 
 
@@ -29,6 +28,11 @@ public class GameManager : MonoBehaviour
     public void setGravity(float g)
     {
         this.gravity = g;
+    }
+
+    public void LoadNextScene(string scene)//Allow Scene load from everywhere
+    {
+        StartCoroutine(LoadScene(scene));
     }
 
     IEnumerator LoadScene(string scene) //Utile per capire quando una scena può essere settata come attiva, la scena da controllare viene passata in input come stringa ed appena è pronta viene
