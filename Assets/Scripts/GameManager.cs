@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         gravity = 120.0f;
-        string mainScene = "SampleScene";//Debug scene
+        string mainScene = "MenuScene";//Debug scene
         LoadNextScene(mainScene);
     }
 
@@ -33,6 +33,11 @@ public class GameManager : MonoBehaviour
     public void LoadNextScene(string scene)//Allow Scene load from everywhere
     {
         StartCoroutine(LoadScene(scene));
+    }
+    public void UnloadScene(string scene)//Allow Scene load from everywhere
+    {
+        Scene sc = SceneManager.GetSceneByName(scene);
+        SceneManager.UnloadSceneAsync(sc);
     }
 
     IEnumerator LoadScene(string scene) //Utile per capire quando una scena può essere settata come attiva, la scena da controllare viene passata in input come stringa ed appena è pronta viene
