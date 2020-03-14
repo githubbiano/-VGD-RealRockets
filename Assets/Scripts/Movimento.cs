@@ -43,9 +43,9 @@ public class Movimento : MonoBehaviour
         }
         else
         {
-            if (Input.GetKeyDown(KeyCode.J))
-                anim.SetTrigger(hash_trigger_deveSaltare);
             if (Input.GetKeyDown(KeyCode.Space))
+                anim.SetTrigger(hash_trigger_deveSaltare);
+            if (Input.GetKeyDown(KeyCode.Mouse0))
                 anim.SetTrigger(hash_trigger_deveTirare);
         }
        

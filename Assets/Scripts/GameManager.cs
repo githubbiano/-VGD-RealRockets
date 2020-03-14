@@ -7,12 +7,11 @@ public class GameManager : MonoBehaviour
 {
     string scene;
     private float gravity;
-    private float speed;
     // Start is called before the first frame update
     void Start()
     {
         scene = "SampleScene";//Scena di test
-        //StartCoroutine(LoadScene(scene)); UNCOMMENT BEFORE RELEASE
+        StartCoroutine(LoadScene(scene)); //UNCOMMENT BEFORE RELEASE
         gravity = 120.0f;
     }
 
