@@ -16,6 +16,7 @@ public class CameraTurning : MonoBehaviour
     private GameObject target;
     
     private bool flag_target_changed;
+    private bool flag_once;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +27,7 @@ public class CameraTurning : MonoBehaviour
         RESET_OFFSET = offset;
         speed = 70.0f;
         flag_target_changed = false;
+        flag_once = false;
     }
 
     // Update is called once per frame
@@ -34,12 +36,24 @@ public class CameraTurning : MonoBehaviour
         
         if (!chara.isLocked())
         {
+            if (chara.isHoovering() && !flag_once)
+            {
+                flag_once = true;
+                offset = EXACT.position - focus.transform.position;
+                transform.position = EXACT.position;
+            }
+
+            if(!chara.isHoovering())
+            {
+                flag_once = false;
+            }
+
             if (flag_target_changed)//avoids multiple executions
             {
                 //change target to look at
                 target = focus;
                 //reset camera position when unlocking
-                offset = RESET_OFFSET; 
+                offset = RESET_OFFSET;
                 transform.localPosition = RESET_POSITION;
                 flag_target_changed = false;
             }
