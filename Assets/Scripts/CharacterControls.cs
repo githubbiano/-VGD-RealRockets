@@ -11,15 +11,25 @@ public class CharacterControls : MonoBehaviour
     private CharacterManager charManager;
     private bool lock_ball;
     private float speed;
+    private float rocketSpeed;
     private CharacterController cc;
     private float gravity;
     private float actualSpeed;
     private float curForQt;
     private float curSidQt;
+    private float airForQt;
+    private float airSidQt;
     private float vSpeed;
     private float vHovSpeed;
     private float jumpSpeed;
-    public bool hoover;
+    private bool hoover;
+    public bool fly;
+    private float fuel;
+    private float currFuel;
+    private float deplRat;
+    private float refRate;
+    private Vector3 jumpForDir;
+    private Vector3 jumpSidDir;
 
     // Start is called before the first frame update
     void Start()
@@ -28,12 +38,22 @@ public class CharacterControls : MonoBehaviour
         manager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
         charManager = GameObject.FindGameObjectWithTag("CharController").GetComponent<CharacterManager>();
         speed =charManager.getSpeed();
+        rocketSpeed = charManager.getRocketSpeed();
         lock_ball = false;
         cc = gameObject.GetComponent<CharacterController>();
         gravity = manager.getGravity();
         vSpeed = 0;
         jumpSpeed = charManager.getJumpSpeed();
         hoover = false;
+        fly = false;
+        fuel = charManager.getMaxFuel();
+        currFuel = fuel;
+        deplRat = charManager.getDepletionRate();
+        refRate = charManager.getRefillRate();
+        airForQt = 0;
+        airSidQt = 0;
+        jumpForDir = Vector3.zero;
+        jumpSidDir = Vector3.zero;
     }
 
     // Update is called once per frame
@@ -50,52 +70,97 @@ public class CharacterControls : MonoBehaviour
         curForQt = Input.GetAxis("Vertical");
         curSidQt = Input.GetAxis("Horizontal");
 
+        if (cc.isGrounded)
+        {
+            airForQt = curForQt;
+            airSidQt = curSidQt;
+            if (currFuel < fuel)
+            {
+                currFuel += refRate * Time.deltaTime;
+            }
+        }
+        else if(!hoover)
+        {
+            curForQt = airForQt;
+            curSidQt = airSidQt;
+        }
+
         Vector3 forward = Vector3.zero;
         Vector3 side = Vector3.zero;
-        if (hoover)
+        if (fly)
         {
-            if (gameObject.transform.position.y < 2f && curForQt < 0f)
-            {
-                Debug.Log("HERE");
-                curForQt = 0;
-            }
-            //if hoovering go up/down
-            vHovSpeed = curForQt * speed;
-            //side direction is relative to character now
-            side = transform.TransformDirection(Vector3.right).normalized;//direzione laterale
+            forward = cam.transform.TransformDirection(Vector3.forward);
+            curSidQt = 0;
+            curForQt = rocketSpeed;
         }
         else
-        {//if not hoovering and grounded
-            if (cc.isGrounded) {
-                //get camera forward vector and transform it in world direction
-                forward = cam.transform.TransformDirection(Vector3.forward).normalized;//direzione frontale
-                //set forward y to 0 so that movement is 2d only (since camera can look up or down, we only want forward and side)
-                forward.y = 0;
-                //same as above but side axis is consistent, we don't need to adjust it to 2d
-                side = cam.transform.TransformDirection(Vector3.right).normalized;//direzione laterale
+        {
+            if (hoover)
+            {
+                airForQt = 0;
+                airSidQt = 0;
+                jumpSidDir = Vector3.zero;
+                jumpForDir = Vector3.zero;
+                if (currFuel > 0)
+                {
+                    currFuel -= (deplRat / 2) * Time.deltaTime;
+                }
+
+                if (gameObject.transform.position.y < 2f && curForQt < 0f)
+                {
+                    curForQt = 0;
+                }
+                //if hoovering go up/down
+                vHovSpeed = curForQt * speed;
+                //side direction is relative to character now
+                side = transform.TransformDirection(Vector3.right).normalized;//direzione laterale
+            }
+            else
+            {//if not hoovering and grounded
+                if (cc.isGrounded)
+                {
+                    vHovSpeed = 0;
+                    //get camera forward vector and transform it in world direction
+                    forward = cam.transform.TransformDirection(Vector3.forward);//direzione frontale
+                                                                                //set forward y to 0 so that movement is 2d only (since camera can look up or down, we only want forward and side)
+                    forward.y = 0;
+                    jumpForDir = forward;
+                    //same as above but side axis is consistent, we don't need to adjust it to 2d
+                    side = cam.transform.TransformDirection(Vector3.right);//direzione laterale
+                    jumpSidDir = side;
+                }
+                else
+                {
+                    //get camera forward vector and transform it in world direction
+                    forward = jumpForDir;
+                    //same as above but side axis is consistent, we don't need to adjust it to 2d
+                    side = jumpSidDir;
+                }
+
             }
         }
+        
         actualSpeed = curSidQt + curForQt;//used on animator
         //next move direction
-        moveDirection =side * curSidQt + forward * curForQt;
+        moveDirection = side * curSidQt + forward * curForQt;
         //apply speed
         moveDirection *= speed;
-
         //Cancel vertical speed if on ground
         if (cc.isGrounded)
         {
-            vSpeed = -1.0f;
             hoover = false;
+            fly = false;
         }
         //if we are grounded we can jump
         if (Input.GetKeyDown(KeyCode.Space) && cc.isGrounded)
         {
             vSpeed = jumpSpeed;
         }
-        //if we are not grounded we apply gravity
+
+        //if we are not grounded
         if (!cc.isGrounded)
         {
-            if (!hoover)
+            if (!hoover && !fly)
             {
                 //apply gravity
                 vSpeed -= gravity * Time.deltaTime;
@@ -113,13 +178,23 @@ public class CharacterControls : MonoBehaviour
                 fwd.y = 0;
                 transform.rotation = Quaternion.LookRotation(fwd);
             }
-            if (Input.GetKeyUp(KeyCode.Space) && hoover)
+            if ((Input.GetKeyUp(KeyCode.Space) && hoover) ||  currFuel<=0)
             {
                 hoover = false;
             }
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                fly = true;
+            }
         }
-        //apply vertical movement
-        moveDirection.y = vSpeed+vHovSpeed;
+        //clamp vector to avoid extra diagonal speed
+        moveDirection = Vector3.ClampMagnitude(moveDirection, speed);
+        if (!fly)
+        {
+            //apply vertical movement
+            moveDirection.y = vSpeed + vHovSpeed;
+        }
+        
 
         //apply movement
         cc.Move(moveDirection * Time.deltaTime);
@@ -127,17 +202,18 @@ public class CharacterControls : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (!hoover && cc.isGrounded)
+        bool moving= (Input.GetAxis("Vertical")+Input.GetAxis("Horizontal")) != 0;
+        if (!hoover && cc.isGrounded && moving)
         {
             //rotate gameobject towards movement direction
             //this is in LateUpdate to avoid camera jittering
             //get camera forward vector and transform it in world direction
             Vector3 forward = cam.transform.TransformDirection(Vector3.forward).normalized;//direzione frontale
-                                                                                           //set forward y to 0 so that rotation is 2d only (since camera can look up or down, we only want forward and side)
+            //set forward y to 0 so that rotation is 2d only (since camera can look up or down, we only want forward and side)
             forward.y = 0;
             //same as above but side axis is consistent, we don't need to adjust it to 2d
             Vector3 side = cam.transform.TransformDirection(Vector3.right).normalized;//direzione laterale
-                                                                                      //rotate towards movement direction
+            //rotate towards movement direction
             Vector3 newDir = Vector3.RotateTowards(transform.forward, side * curSidQt + forward * curForQt, 10.0f, 0.0f);
             //apply rotation
             transform.rotation = Quaternion.LookRotation(newDir);
@@ -155,5 +231,9 @@ public class CharacterControls : MonoBehaviour
     public bool isHoovering()
     {
         return this.hoover;
+    }
+    public bool isFlying()
+    {
+        return this.fly;
     }
 }

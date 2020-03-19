@@ -53,8 +53,8 @@ public class CameraTurning : MonoBehaviour
                 //change target to look at
                 target = focus;
                 //reset camera position when unlocking
-                offset = RESET_OFFSET;
-                transform.localPosition = RESET_POSITION;
+                offset = EXACT.position - focus.transform.position;
+                transform.position = EXACT.position;
                 flag_target_changed = false;
             }
             //Split rotation in 2 quaternions to better manage y axis transition
