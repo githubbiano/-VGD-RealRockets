@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Raycast
   - CharController
+  - Field
   layers:
   - Default
   - TransparentFX

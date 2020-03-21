@@ -92,6 +92,10 @@ public class CharacterControls : MonoBehaviour
             forward = cam.transform.TransformDirection(Vector3.forward);
             curSidQt = 0;
             curForQt = rocketSpeed;
+            if (currFuel > 0)
+            {
+                currFuel -= (deplRat) * Time.deltaTime;
+            }
         }
         else
         {
@@ -146,10 +150,16 @@ public class CharacterControls : MonoBehaviour
         //apply speed
         moveDirection *= speed;
         //Cancel vertical speed if on ground
-        if (cc.isGrounded)
+        if (cc.isGrounded || currFuel <= 0)
         {
-            hoover = false;
-            fly = false;
+            if (hoover)
+            {
+                hoover = false;
+            }
+            else if (fly)
+            {
+                fly = false;
+            }
         }
         //if we are grounded we can jump
         if (Input.GetKeyDown(KeyCode.Space) && cc.isGrounded)
@@ -167,10 +177,10 @@ public class CharacterControls : MonoBehaviour
             }
             else 
             {
-                vSpeed = 0; 
+                vSpeed = 0;
             }
 
-            if (Input.GetKeyDown(KeyCode.Space) && !hoover)
+            if (Input.GetKeyDown(KeyCode.Space) && !hoover && !fly)
             {
                 hoover = true;
                 vSpeed = 0;
@@ -185,6 +195,7 @@ public class CharacterControls : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E))
             {
                 fly = true;
+                hoover = false;
             }
         }
         //clamp vector to avoid extra diagonal speed
@@ -203,14 +214,18 @@ public class CharacterControls : MonoBehaviour
     private void LateUpdate()
     {
         bool moving= (Input.GetAxis("Vertical")+Input.GetAxis("Horizontal")) != 0;
-        if (!hoover && cc.isGrounded && moving)
+        if ((cc.isGrounded && moving) || fly)
         {
             //rotate gameobject towards movement direction
             //this is in LateUpdate to avoid camera jittering
             //get camera forward vector and transform it in world direction
             Vector3 forward = cam.transform.TransformDirection(Vector3.forward).normalized;//direzione frontale
-            //set forward y to 0 so that rotation is 2d only (since camera can look up or down, we only want forward and side)
-            forward.y = 0;
+            if (cc.isGrounded || currFuel<=0)
+            {
+                //set forward y to 0 so that rotation is 2d only (since camera can look up or down, we only want forward and side)
+                forward.y = 0;
+                transform.rotation = Quaternion.Euler(0, transform.rotation.y, transform.rotation.z);
+            }
             //same as above but side axis is consistent, we don't need to adjust it to 2d
             Vector3 side = cam.transform.TransformDirection(Vector3.right).normalized;//direzione laterale
             //rotate towards movement direction
