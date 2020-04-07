@@ -8,12 +8,14 @@ public class CameraTurning : MonoBehaviour
     public GameObject ball;
     public GameObject focus;
     public Transform EXACT;
+    public GameObject test;
 
     private Vector3 RESET_POSITION;
     private Vector3 RESET_OFFSET;
     private float speed;
     private Vector3 offset;
     private GameObject target;
+    private LayerMask ClipMask;
     
     private bool flag_target_changed;
     private bool flag_once;
@@ -28,6 +30,7 @@ public class CameraTurning : MonoBehaviour
         speed = 70.0f;
         flag_target_changed = false;
         flag_once = false;
+        ClipMask = 0 << LayerMask.NameToLayer("Clip") | 1 <<LayerMask.NameToLayer("NoClip");
     }
 
     // Update is called once per frame
@@ -106,23 +109,33 @@ public class CameraTurning : MonoBehaviour
     }
 
     //reposition camera to avoid clipping
-    private Vector3 cameraReposition(Vector3 offset) 
+    private Vector3 cameraReposition(Vector3 off) 
     {
         //Camera Reposition On Obstruction (partial) // Source: https://www.youtube.com/watch?v=s2lUw08ZE_Q
         //get offset
-        Vector3 unobstructed = offset;
+        Vector3 unobstructed = off;
         //calculate initialize ideal position
-        Vector3 idealPosition = focus.transform.position + offset;
+        Vector3 idealPosition = focus.transform.position + unobstructed;
 
         RaycastHit hit;
+        //Debug.Log(Physics.Linecast(focus.transform.position, idealPosition, out hit));
         //linecast from character (camera focus) to camera position (before any adjustment)
-        if (Physics.Linecast(focus.transform.position, idealPosition, out hit))
+        if (Physics.Linecast(focus.transform.position, idealPosition, out hit, ClipMask.value))
         {
+            Debug.Log(hit.collider.gameObject.name);
+            unobstructed = hit.point - focus.transform.position;
+
             //if there is something between camera and character
             if (!hit.collider.gameObject.CompareTag("Player"))
             {
                 //put camera on impact point
                 unobstructed = hit.point - focus.transform.position;
+                Debug.Log("moved for -> "+ hit.collider.gameObject.name);
+
+            }
+            else
+            {
+                Debug.Log("unadjusted-> "+ hit.collider.gameObject.name);
             }
         }
         //return new camera position
@@ -134,15 +147,16 @@ public class CameraTurning : MonoBehaviour
     {
         //same as above but another object that keeps the unadjusted position is needed (EXACT) because it very hard to predict camera's next 
         //Camera Reposition On Obstruction (partial) // Source: https://www.youtube.com/watch?v=s2lUw08ZE_Q
-        Vector3 unobstructed = EXACT.transform.position - focus.transform.position;
+        Vector3 unobstructed = transform.position - focus.transform.position;
         Vector3 idealPosition = focus.transform.position + unobstructed;
 
         RaycastHit hit;
         if (Physics.Linecast(focus.transform.position, idealPosition, out hit))
         {
-            if (!hit.collider.gameObject.CompareTag("Player"))
+            if (hit.collider.gameObject.CompareTag("NoClip"))
             {
                 unobstructed = hit.point - focus.transform.position;
+                
             }
         }
         //return new camera position
