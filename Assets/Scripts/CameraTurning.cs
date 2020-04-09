@@ -82,8 +82,8 @@ public class CameraTurning : MonoBehaviour
                 //change target to look at
                 target = ball;
                 //reset camera position when unlocking
-                offset = RESET_OFFSET;
-                transform.localPosition = RESET_POSITION;
+                offset = EXACT.position - focus.transform.position;
+                transform.position = EXACT.position;
                 flag_target_changed = true;
             }
             transform.position=cameraReposition();
@@ -122,21 +122,15 @@ public class CameraTurning : MonoBehaviour
         //linecast from character (camera focus) to camera position (before any adjustment)
         if (Physics.Linecast(focus.transform.position, idealPosition, out hit, ClipMask.value))
         {
-            Debug.Log(hit.collider.gameObject.name);
             unobstructed = hit.point - focus.transform.position;
 
-            //if there is something between camera and character
-            if (!hit.collider.gameObject.CompareTag("Player"))
-            {
-                //put camera on impact point
-                unobstructed = hit.point - focus.transform.position;
-                Debug.Log("moved for -> "+ hit.collider.gameObject.name);
+            ////if there is something between camera and character
+            //if (!hit.collider.gameObject.CompareTag("Player"))
+            //{
+            //    //put camera on impact point
+            //    unobstructed = hit.point - focus.transform.position;
 
-            }
-            else
-            {
-                Debug.Log("unadjusted-> "+ hit.collider.gameObject.name);
-            }
+            //}
         }
         //return new camera position
         return focus.transform.position + unobstructed;
@@ -147,17 +141,18 @@ public class CameraTurning : MonoBehaviour
     {
         //same as above but another object that keeps the unadjusted position is needed (EXACT) because it very hard to predict camera's next 
         //Camera Reposition On Obstruction (partial) // Source: https://www.youtube.com/watch?v=s2lUw08ZE_Q
-        Vector3 unobstructed = transform.position - focus.transform.position;
+        Vector3 unobstructed = EXACT.position - focus.transform.position;
         Vector3 idealPosition = focus.transform.position + unobstructed;
 
         RaycastHit hit;
-        if (Physics.Linecast(focus.transform.position, idealPosition, out hit))
+        if (Physics.Linecast(focus.transform.position, idealPosition, out hit, ClipMask.value))
         {
-            if (hit.collider.gameObject.CompareTag("NoClip"))
-            {
-                unobstructed = hit.point - focus.transform.position;
+            unobstructed = hit.point - focus.transform.position;
+            //if (hit.collider.gameObject.CompareTag("NoClip"))
+            //{
+            //    unobstructed = hit.point - focus.transform.position;
                 
-            }
+            //}
         }
         //return new camera position
         return focus.transform.position + unobstructed;

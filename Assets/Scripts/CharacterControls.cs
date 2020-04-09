@@ -23,7 +23,8 @@ public class CharacterControls : MonoBehaviour
     private float vHovSpeed;
     private float jumpSpeed;
     private bool hoover;
-    public bool fly;
+    private bool fly;
+    private bool lockable;
     private float fuel;
     private float currFuel;
     private float deplRat;
@@ -54,6 +55,7 @@ public class CharacterControls : MonoBehaviour
         airSidQt = 0;
         jumpForDir = Vector3.zero;
         jumpSidDir = Vector3.zero;
+        lockable = true;
     }
 
     // Update is called once per frame
@@ -61,7 +63,7 @@ public class CharacterControls : MonoBehaviour
     {
         Vector3 moveDirection;
         //if key is pressed toggle lock mode
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.Tab) && lockable)
         {
             lock_ball = !lock_ball;
         }
@@ -89,6 +91,8 @@ public class CharacterControls : MonoBehaviour
         Vector3 side = Vector3.zero;
         if (fly)
         {
+            lockable = false;
+            lock_ball = false;
             forward = cam.transform.TransformDirection(Vector3.forward);
             curSidQt = 0;
             curForQt = rocketSpeed;
@@ -99,6 +103,7 @@ public class CharacterControls : MonoBehaviour
         }
         else
         {
+            lockable = true;
             if (hoover)
             {
                 airForQt = 0;
@@ -159,6 +164,7 @@ public class CharacterControls : MonoBehaviour
             else if (fly)
             {
                 fly = false;
+                
             }
         }
         //if we are grounded we can jump
