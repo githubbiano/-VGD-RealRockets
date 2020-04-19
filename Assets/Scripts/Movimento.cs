@@ -8,6 +8,8 @@ public class Movimento : MonoBehaviour
     private Animator anim;
     private float runAnimSpeedMult;
 
+    public float speed = 0.1f;
+
     //hashing delle stringhe in numeri -> confronti molto piu rapidi
 
     //codifichiamo il nome dello stato a cui passare quando si 
@@ -21,6 +23,7 @@ public class Movimento : MonoBehaviour
     int nameStatoCorrente = Animator.StringToHash("Base Layer.Armature|Fly");
     void Start()
     {
+        Debug.Log(speed);
         runAnimSpeedMult = 1.8f;//run animation speed
         anim = GetComponent<Animator>();
         anim.SetFloat("runMul", runAnimSpeedMult);//set run animation speed
@@ -29,8 +32,9 @@ public class Movimento : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float movimento = Input.GetAxis("Vertical");
-        anim.SetFloat("velocita", movimento);
+        //float movimento = Input.GetAxis("Vertical");
+        //anim.SetFloat("velocita", movimento);
+        Move();
 
         AnimatorStateInfo statoCorrente = anim.GetCurrentAnimatorStateInfo(0);
 
@@ -40,6 +44,7 @@ public class Movimento : MonoBehaviour
                 anim.SetTrigger(hash_trigger_tempCrash);
             if (Input.GetKeyDown(KeyCode.Space))
                 anim.SetTrigger(hash_trigger_tiroAlVolo);
+
         }
         else
         {
@@ -51,5 +56,39 @@ public class Movimento : MonoBehaviour
        
 
 
+    }
+
+    private void Move()
+    {
+        if (Input.GetKey(KeyCode.UpArrow)) {
+            gameObject.transform.Translate(Vector3.up * speed * Time.deltaTime);
+            anim.SetFloat("velocita", speed);
+        }
+        else if (Input.GetKey(KeyCode.DownArrow))
+        {
+            gameObject.transform.Translate(Vector3.down * speed * Time.deltaTime);
+            anim.SetFloat("velocita", speed);
+        }
+        else if (Input.GetKey(KeyCode.RightArrow))  {
+            gameObject.transform.Translate(Vector3.right * speed * Time.deltaTime);
+            anim.SetFloat("velocita", speed);
+        }
+        else if (Input.GetKey(KeyCode.LeftArrow)) {
+            gameObject.transform.Translate(Vector3.left * speed * Time.deltaTime);
+            anim.SetFloat("velocita", speed);
+        }
+        else
+        {
+            anim.SetFloat("velocita", 0.0f);
+        }
+
+        /*float horizz = Input.GetAxis("Horizzontal");
+        if (horizz != 0.0f)
+        {
+            Debug.Log("Cambio: " + horizz);
+            Vector3 direzione = new Vector3(horizz, 0.0f, 0.0f);
+            gameObject.transform.Translate(direzione * speed * Time.deltaTime);
+            anim.SetFloat("velocita", horizz);
+        }*/
     }
 }
