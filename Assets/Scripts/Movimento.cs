@@ -20,7 +20,8 @@ public class Movimento : MonoBehaviour
     int hash_trigger_tempCrash = Animator.StringToHash("tempCrash");
 
 
-    int nameStatoCorrente = Animator.StringToHash("Base Layer.Armature|Fly");
+    int animationFly = Animator.StringToHash("Base Layer.Armature|Fly");
+    int animationAir = Animator.StringToHash("Base Layer.StopAir");
     void Start()
     {
         Debug.Log(speed);
@@ -38,7 +39,7 @@ public class Movimento : MonoBehaviour
 
         AnimatorStateInfo statoCorrente = anim.GetCurrentAnimatorStateInfo(0);
 
-        if (statoCorrente.fullPathHash == nameStatoCorrente)
+        if (statoCorrente.fullPathHash == animationFly || statoCorrente.fullPathHash == animationAir)
         {
             if (Input.GetKeyDown(KeyCode.J))
                 anim.SetTrigger(hash_trigger_tempCrash);
@@ -60,20 +61,20 @@ public class Movimento : MonoBehaviour
 
     private void Move()
     {
-        if (Input.GetKey(KeyCode.UpArrow)) {
+        if (Input.GetKey(KeyCode.W)) {
             gameObject.transform.Translate(Vector3.up * speed * Time.deltaTime);
             anim.SetFloat("velocita", speed);
         }
-        else if (Input.GetKey(KeyCode.DownArrow))
+        else if (Input.GetKey(KeyCode.S))
         {
             gameObject.transform.Translate(Vector3.down * speed * Time.deltaTime);
             anim.SetFloat("velocita", speed);
         }
-        else if (Input.GetKey(KeyCode.RightArrow))  {
+        else if (Input.GetKey(KeyCode.D))  {
             gameObject.transform.Translate(Vector3.right * speed * Time.deltaTime);
             anim.SetFloat("velocita", speed);
         }
-        else if (Input.GetKey(KeyCode.LeftArrow)) {
+        else if (Input.GetKey(KeyCode.S)) {
             gameObject.transform.Translate(Vector3.left * speed * Time.deltaTime);
             anim.SetFloat("velocita", speed);
         }
