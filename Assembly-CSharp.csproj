@@ -69,9 +69,12 @@
     <Compile Include="Assets\Scripts\CharacterManager.cs" />
     <Compile Include="Assets\Scripts\Controls.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Scripts\LoadingSceneManager.cs" />
     <Compile Include="Assets\Scripts\LockMode.cs" />
     <Compile Include="Assets\Scripts\MatchManager.cs" />
     <Compile Include="Assets\Scripts\Movimento.cs" />
+    <Compile Include="Assets\Scripts\RotateCamera.cs" />
+    <Compile Include="Assets\Scripts\RotateCamera2.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/Users/pc/Desktop/VGDproject/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
