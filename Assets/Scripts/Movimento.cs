@@ -35,7 +35,6 @@ public class Movimento : MonoBehaviour
     {
         //float movimento = Input.GetAxis("Vertical");
         //anim.SetFloat("velocita", movimento);
-        Move();
 
         AnimatorStateInfo statoCorrente = anim.GetCurrentAnimatorStateInfo(0);
 
