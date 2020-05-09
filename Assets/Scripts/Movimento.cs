@@ -1,13 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class Movimento : MonoBehaviour
 {
     // Start is called before the first frame update
     private Animator anim;
     private float runAnimSpeedMult;
-
+    private CharacterController cc;
     public float speed = 0.1f;
 
     //hashing delle stringhe in numeri -> confronti molto piu rapidi
@@ -18,6 +17,7 @@ public class Movimento : MonoBehaviour
     int hash_trigger_deveTirare = Animator.StringToHash("deveTirare");
     int hash_trigger_tiroAlVolo = Animator.StringToHash("tiroAlVolo");
     int hash_trigger_tempCrash = Animator.StringToHash("tempCrash");
+    int hash_trigger_terra = Animator.StringToHash("terra");
 
 
     int animationFly = Animator.StringToHash("Base Layer.Armature|Fly");
@@ -28,6 +28,7 @@ public class Movimento : MonoBehaviour
         runAnimSpeedMult = 1.8f;//run animation speed
         anim = GetComponent<Animator>();
         anim.SetFloat("runMul", runAnimSpeedMult);//set run animation speed
+        cc = GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
@@ -35,15 +36,18 @@ public class Movimento : MonoBehaviour
     {
         //float movimento = Input.GetAxis("Vertical");
         //anim.SetFloat("velocita", movimento);
-
+        Move();
         AnimatorStateInfo statoCorrente = anim.GetCurrentAnimatorStateInfo(0);
-
+        //anim.SetFloat("velocità", cc.getActualSpeed());
         if (statoCorrente.fullPathHash == animationFly || statoCorrente.fullPathHash == animationAir)
         {
             if (Input.GetKeyDown(KeyCode.J))
-                anim.SetTrigger(hash_trigger_tempCrash);
+                anim.SetTrigger(hash_trigger_tempCrash); 
             if (Input.GetKeyDown(KeyCode.Space))
                 anim.SetTrigger(hash_trigger_tiroAlVolo);
+            
+            if (!cc.isGrounded && statoCorrente.fullPathHash == animationAir) 
+                anim.SetTrigger(hash_trigger_terra);
 
         }
         else
@@ -54,13 +58,38 @@ public class Movimento : MonoBehaviour
                 anim.SetTrigger(hash_trigger_deveTirare);
         }
        
+        
 
 
     }
 
     private void Move()
     {
-        if (Input.GetKey(KeyCode.W)) {
+        if (Input.GetKey(KeyCode.W))
+        {
+            //gameObject.transform.Translate(Vector3.up * speed * Time.deltaTime);
+            anim.SetFloat("velocita", speed);
+        }
+        else if (Input.GetKey(KeyCode.S))
+        {
+            //gameObject.transform.Translate(Vector3.down * speed * Time.deltaTime);
+            anim.SetFloat("velocita", speed);
+        }
+        else if (Input.GetKey(KeyCode.D))
+        {
+            //gameObject.transform.Translate(Vector3.right * speed * Time.deltaTime);
+            anim.SetFloat("velocita", speed);
+        }
+        else if (Input.GetKey(KeyCode.A))
+        {
+            //gameObject.transform.Translate(Vector3.left * speed * Time.deltaTime);
+            anim.SetFloat("velocita", speed);
+        }
+        else
+        {
+            anim.SetFloat("velocita", 0.0f);
+        }
+        /*if (Input.GetKey(KeyCode.W)) {
             gameObject.transform.Translate(Vector3.up * speed * Time.deltaTime);
             anim.SetFloat("velocita", speed);
         }
@@ -82,7 +111,7 @@ public class Movimento : MonoBehaviour
             anim.SetFloat("velocita", 0.0f);
         }
 
-        /*float horizz = Input.GetAxis("Horizzontal");
+        float horizz = Input.GetAxis("Horizzontal");
         if (horizz != 0.0f)
         {
             Debug.Log("Cambio: " + horizz);

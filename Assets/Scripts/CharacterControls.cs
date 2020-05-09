@@ -219,7 +219,7 @@ public class CharacterControls : MonoBehaviour
 
     private void LateUpdate()
     {
-        bool moving= (Input.GetAxis("Vertical")+Input.GetAxis("Horizontal")) != 0;
+        bool moving= (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0);
         if ((cc.isGrounded && moving) || fly)
         {
             //rotate gameobject towards movement direction

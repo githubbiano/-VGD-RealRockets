@@ -66,7 +66,7 @@ public class CameraTurning : MonoBehaviour
             //calculate next camera position 
             Vector3 newOffset = (turnAngleY * turnAngleX) * offset;
             //check if new position is between (arbitrary) boundaries
-            if (newOffset.y < -0.8f || newOffset.y > 1.7f)
+            if (newOffset.y < -1.2f || newOffset.y > 1.7f)
             {
                 //update if necessary
                 newOffset = turnAngleX * offset;
