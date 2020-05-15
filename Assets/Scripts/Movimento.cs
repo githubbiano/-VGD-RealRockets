@@ -6,7 +6,7 @@ public class Movimento : MonoBehaviour
     // Start is called before the first frame update
     private Animator anim;
     private float runAnimSpeedMult;
-    private CharacterController cc;
+    public CharacterController cc;
     public float speed = 0.1f;
 
     //hashing delle stringhe in numeri -> confronti molto piu rapidi
@@ -28,7 +28,7 @@ public class Movimento : MonoBehaviour
         runAnimSpeedMult = 1.8f;//run animation speed
         anim = GetComponent<Animator>();
         anim.SetFloat("runMul", runAnimSpeedMult);//set run animation speed
-        cc = GetComponent<CharacterController>();
+        //cc = GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
@@ -65,29 +65,32 @@ public class Movimento : MonoBehaviour
 
     private void Move()
     {
-        if (Input.GetKey(KeyCode.W))
+        if (cc.isGrounded)
         {
-            //gameObject.transform.Translate(Vector3.up * speed * Time.deltaTime);
-            anim.SetFloat("velocita", speed);
-        }
-        else if (Input.GetKey(KeyCode.S))
-        {
-            //gameObject.transform.Translate(Vector3.down * speed * Time.deltaTime);
-            anim.SetFloat("velocita", speed);
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            //gameObject.transform.Translate(Vector3.right * speed * Time.deltaTime);
-            anim.SetFloat("velocita", speed);
-        }
-        else if (Input.GetKey(KeyCode.A))
-        {
-            //gameObject.transform.Translate(Vector3.left * speed * Time.deltaTime);
-            anim.SetFloat("velocita", speed);
-        }
-        else
-        {
-            anim.SetFloat("velocita", 0.0f);
+            if (Input.GetKey(KeyCode.W))
+            {
+                //gameObject.transform.Translate(Vector3.up * speed * Time.deltaTime);
+                anim.SetFloat("velocita", speed);
+            }
+            else if (Input.GetKey(KeyCode.S))
+            {
+                //gameObject.transform.Translate(Vector3.down * speed * Time.deltaTime);
+                anim.SetFloat("velocita", speed);
+            }
+            else if (Input.GetKey(KeyCode.D))
+            {
+                //gameObject.transform.Translate(Vector3.right * speed * Time.deltaTime);
+                anim.SetFloat("velocita", speed);
+            }
+            else if (Input.GetKey(KeyCode.A))
+            {
+                //gameObject.transform.Translate(Vector3.left * speed * Time.deltaTime);
+                anim.SetFloat("velocita", speed);
+            }
+            else
+            {
+                anim.SetFloat("velocita", 0.0f);
+            }
         }
         /*if (Input.GetKey(KeyCode.W)) {
             gameObject.transform.Translate(Vector3.up * speed * Time.deltaTime);

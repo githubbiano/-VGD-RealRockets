@@ -8,6 +8,7 @@ TagManager:
   - CharController
   - Field
   - NoClip
+  - ball
   layers:
   - Default
   - TransparentFX

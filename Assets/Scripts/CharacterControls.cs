@@ -31,6 +31,7 @@ public class CharacterControls : MonoBehaviour
     private float refRate;
     private Vector3 jumpForDir;
     private Vector3 jumpSidDir;
+    private bool doneFlag;
 
     // Start is called before the first frame update
     void Start()
@@ -56,6 +57,7 @@ public class CharacterControls : MonoBehaviour
         jumpForDir = Vector3.zero;
         jumpSidDir = Vector3.zero;
         lockable = true;
+        doneFlag = false;
     }
 
     // Update is called once per frame
@@ -157,6 +159,7 @@ public class CharacterControls : MonoBehaviour
         //Cancel vertical speed if on ground
         if (cc.isGrounded || currFuel <= 0)
         {
+            doneFlag = false;
             if (hoover)
             {
                 hoover = false;
@@ -225,7 +228,7 @@ public class CharacterControls : MonoBehaviour
             //rotate gameobject towards movement direction
             //this is in LateUpdate to avoid camera jittering
             //get camera forward vector and transform it in world direction
-            Vector3 forward = cam.transform.TransformDirection(Vector3.forward).normalized;//direzione frontale
+            Vector3 forward = cam.transform.TransformDirection(Vector3.forward);//direzione frontale
             if (cc.isGrounded || currFuel<=0)
             {
                 //set forward y to 0 so that rotation is 2d only (since camera can look up or down, we only want forward and side)
@@ -233,11 +236,44 @@ public class CharacterControls : MonoBehaviour
                 transform.rotation = Quaternion.Euler(0, transform.rotation.y, transform.rotation.z);
             }
             //same as above but side axis is consistent, we don't need to adjust it to 2d
-            Vector3 side = cam.transform.TransformDirection(Vector3.right).normalized;//direzione laterale
+            Vector3 side = cam.transform.TransformDirection(Vector3.right);//direzione laterale
             //rotate towards movement direction
             Vector3 newDir = Vector3.RotateTowards(transform.forward, side * curSidQt + forward * curForQt, 10.0f, 0.0f);
             //apply rotation
             transform.rotation = Quaternion.LookRotation(newDir);
+        }
+    }
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.gameObject.CompareTag("ball") && !fly&& !doneFlag)
+        {
+            doneFlag = true;
+            Rigidbody rb = hit.gameObject.GetComponent<Rigidbody>();
+            rb.AddForce(transform.forward, ForceMode.Impulse);
+        }
+        //if (hit.gameObject.CompareTag("ball") && fly&& !doneFlag)
+        //{
+        //    doneFlag = true;
+        //    fly = false;
+        //    Vector3 dir = hit.point - transform.position;
+        //    dir = -dir.normalized;
+        //    Rigidbody rb = hit.gameObject.GetComponent<Rigidbody>();
+        //    rb.AddForce(dir * 1000, ForceMode.Acceleration);
+        //}
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.GetType() == typeof(SphereCollider)){
+            if (collision.gameObject.CompareTag("ball") && fly && !doneFlag)
+            {
+                Debug.Log("SphereColliderHit");
+                doneFlag = true;
+                fly = false;
+                Vector3 dir = collision.contacts[0].point - transform.position;
+                dir = -dir.normalized;
+                Rigidbody rb = collision.gameObject.GetComponent<Rigidbody>();
+                rb.AddForce(dir * 100, ForceMode.Impulse);
+            }
         }
     }
 

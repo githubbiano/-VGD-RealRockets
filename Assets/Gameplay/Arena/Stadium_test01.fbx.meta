@@ -3,7 +3,27 @@ guid: 31c0e82441757a74191ae526fb2d7273
 ModelImporter:
   serializedVersion: 26
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: DoorB
+    second: {fileID: 2100000, guid: cf809b848435f9e40b7d1e5ea0404464, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: DoorR
+    second: {fileID: 2100000, guid: 8fa30d5fe59533d4793b1f5edb58ddff, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Glass
+    second: {fileID: 2100000, guid: b0cb88e32c165a945afbba6947d5595a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material
+    second: {fileID: 2100000, guid: fdcb9a206f8771b4da23a3ad0db2cccd, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -61,7 +81,7 @@ ModelImporter:
     useFileScale: 1
   tangentSpace:
     normalSmoothAngle: 60
-    normalImportMode: 0
+    normalImportMode: 1
     tangentImportMode: 3
     normalCalculationMode: 4
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
