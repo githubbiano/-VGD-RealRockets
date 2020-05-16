@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 public class LoadingSceneManager : MonoBehaviour
 {
+
     float startTime;
     float endTime;
     float timeToSwitchCamera;
