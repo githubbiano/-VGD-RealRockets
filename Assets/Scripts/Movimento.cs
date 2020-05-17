@@ -58,7 +58,7 @@ public class Movimento : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space))
                 anim.SetTrigger(hash_trigger_tiroAlVolo);
 
-            if (!cc.isGrounded && statoCorrente.fullPathHash == animationAir)
+            if (cc.isGrounded && statoCorrente.fullPathHash == animationAir)
             {
                 em.enabled = false;
                 fr.enabled = false;
