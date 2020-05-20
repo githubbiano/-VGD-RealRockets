@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\EventHandler.cs" />
+    <Compile Include="Assets\FlyCollision.cs" />
     <Compile Include="Assets\Kick.cs" />
     <Compile Include="Assets\Scripts\ButtonManager.cs" />
     <Compile Include="Assets\Scripts\CameraTurning.cs" />

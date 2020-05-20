@@ -261,21 +261,6 @@ public class CharacterControls : MonoBehaviour
         //    rb.AddForce(dir * 1000, ForceMode.Acceleration);
         //}
     }
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.collider.GetType() == typeof(SphereCollider)){
-            if (collision.gameObject.CompareTag("ball") && fly && !doneFlag)
-            {
-                Debug.Log("SphereColliderHit");
-                doneFlag = true;
-                fly = false;
-                Vector3 dir = collision.contacts[0].point - transform.position;
-                dir = -dir.normalized;
-                Rigidbody rb = collision.gameObject.GetComponent<Rigidbody>();
-                rb.AddForce(dir * 100, ForceMode.Impulse);
-            }
-        }
-    }
 
     public bool isLocked()
     {
@@ -292,5 +277,14 @@ public class CharacterControls : MonoBehaviour
     public bool isFlying()
     {
         return this.fly;
+    }
+
+    public void landing()
+    {
+        fly = false;
+    }
+    public bool grounded()
+    {
+        return cc.isGrounded;
     }
 }
