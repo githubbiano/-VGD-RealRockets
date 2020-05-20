@@ -9,6 +9,8 @@ public class Movimento : MonoBehaviour
     public CharacterController cc;
     public float speed = 0.1f;
 
+    public ParticleSystem fire;
+    public ParticleSystem emission;
     //hashing delle stringhe in numeri -> confronti molto piu rapidi
 
     //codifichiamo il nome dello stato a cui passare quando si 
@@ -29,6 +31,10 @@ public class Movimento : MonoBehaviour
         anim = GetComponent<Animator>();
         anim.SetFloat("runMul", runAnimSpeedMult);//set run animation speed
         //cc = GetComponent<CharacterController>();
+
+       
+        
+        
     }
 
     // Update is called once per frame
@@ -41,13 +47,23 @@ public class Movimento : MonoBehaviour
         //anim.SetFloat("velocità", cc.getActualSpeed());
         if (statoCorrente.fullPathHash == animationFly || statoCorrente.fullPathHash == animationAir)
         {
+            //fire.Emit(1);
+            //emission.Emit(1);
+            var fr = fire.emission;
+            var em = emission.emission;
+            em.enabled = true;
+            fr.enabled = true;
             if (Input.GetKeyDown(KeyCode.J))
                 anim.SetTrigger(hash_trigger_tempCrash); 
             if (Input.GetKeyDown(KeyCode.Space))
                 anim.SetTrigger(hash_trigger_tiroAlVolo);
-            
-            if (!cc.isGrounded && statoCorrente.fullPathHash == animationAir) 
+
+            if (cc.isGrounded && statoCorrente.fullPathHash == animationAir)
+            {
+                em.enabled = false;
+                fr.enabled = false;
                 anim.SetTrigger(hash_trigger_terra);
+            }
 
         }
         else
