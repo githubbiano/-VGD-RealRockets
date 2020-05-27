@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         gravity = 120.0f;
         string mainScene = "MenuScene";//Debug scene
         LoadNextScene(mainScene);
@@ -40,7 +41,7 @@ public class GameManager : MonoBehaviour
         SceneManager.UnloadSceneAsync(sc);
     }
 
-    IEnumerator LoadScene(string scene) //Utile per capire quando una scena può essere settata come attiva, la scena da controllare viene passata in input come stringa ed appena è pronta viene
+    public IEnumerator LoadScene(string scene) //Utile per capire quando una scena può essere settata come attiva, la scena da controllare viene passata in input come stringa ed appena è pronta viene
     {                                    //impostata come current
         SceneManager.LoadScene(scene, LoadSceneMode.Additive);
         Scene sc = SceneManager.GetSceneByName(scene);
