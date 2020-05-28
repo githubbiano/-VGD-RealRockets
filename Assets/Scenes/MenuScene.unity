@@ -386,7 +386,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: SampleScene
+          m_StringArgument: LoadingScene
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &400839539
@@ -716,7 +716,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1441946341}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &1441946343
 Camera:
   m_ObjectHideFlags: 0
