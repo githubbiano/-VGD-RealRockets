@@ -7,6 +7,7 @@ public class Kick : MonoBehaviour
     //Hitbox Status
     private bool isHitboxActive;
     public GameObject cc;
+    public CharacterManager charman;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,7 +24,7 @@ public class Kick : MonoBehaviour
         if (other.gameObject.CompareTag("ball")&& isHitboxActive)
         {
             Rigidbody rb = other.gameObject.GetComponent<Rigidbody>();
-            rb.AddForce(cc.transform.forward*2000 + cc.transform.up*1000, ForceMode.Acceleration);
+            rb.AddForce(cc.transform.forward*charman.getLandShotStrength() + cc.transform.up*1000, ForceMode.Acceleration);
         }
     }
     public void ActivateHitbox()

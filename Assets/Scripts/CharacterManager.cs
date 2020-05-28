@@ -7,7 +7,8 @@ public class CharacterManager : MonoBehaviour
     private float jumpSpeed;
     private float speed;
     private float rocketSpeed;
-    private float shotStrength;
+    private float landShotStrength;
+    private float airShotStrength;
     private float maxFuel;
     private float depletionRate;
     private float refillRate;
@@ -20,7 +21,8 @@ public class CharacterManager : MonoBehaviour
         maxFuel = 100;
         depletionRate = 5;
         refillRate = 3;
-        shotStrength = 10;
+        landShotStrength = 1000;
+        airShotStrength = 30;
         rocketSpeed = speed * 2;
     }
 
@@ -48,13 +50,22 @@ public class CharacterManager : MonoBehaviour
         this.jumpSpeed = s;
     }
 
-    public float getShotStrength()
+    public float getLandShotStrength()
     {
-        return this.shotStrength;
+        return this.landShotStrength;
     }
-    public void setShotStrength(float strength)
+    public void setLandShotStrength(float strength)
     {
-        this.shotStrength = strength;
+        this.landShotStrength = strength;
+    }
+
+    public float getAirShotStrength()
+    {
+        return this.airShotStrength;
+    }
+    public void setAirShotStrength(float strength)
+    {
+        this.airShotStrength = strength;
     }
 
     public float getMaxFuel()

@@ -6,6 +6,7 @@ public class FlyCollision : MonoBehaviour
 {
     public CharacterControls cc;
     private bool doneFlag;
+    public CharacterManager charman;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,7 +33,7 @@ public class FlyCollision : MonoBehaviour
             Debug.DrawLine(gameObject.transform.position, collision.gameObject.transform.position, Color.red, 20.0f);
             dir = -dir.normalized;
             Rigidbody rb = collision.gameObject.GetComponent<Rigidbody>();
-            rb.AddForce(dir * 30, ForceMode.Impulse);
+            rb.AddForce(dir * charman.getAirShotStrength(), ForceMode.Impulse);
         }
     }
 }
