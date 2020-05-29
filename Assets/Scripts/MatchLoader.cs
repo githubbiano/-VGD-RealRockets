@@ -10,18 +10,17 @@ public class MatchLoader : MonoBehaviour
     private float timer;
     private bool gazedAt;
     private Coroutine fillBarRoutine;
-    public Slider slider;
+    private Slider slider;
+    private int value;
     public GameObject progressText;
 
 
 
     private void Start()
     {
-        slider = GetComponent<Slider>();
+        slider = gameObject.GetComponent<Slider>();
         //gazedAt = true;
         fillBarRoutine = StartCoroutine(FillBar());
-        ;
-
     }
 
     private void Update()
@@ -31,7 +30,8 @@ public class MatchLoader : MonoBehaviour
     
     public void changeText()
     {
-        int value = (int)(slider.value * 100f);
+        Debug.Log(slider.value);
+        //value = (int)(slider.value * 100f);
         string progress = value.ToString() +"%";    //((int)slider.value * 100f).ToString() + "%";
         progressText.GetComponent<Text>().text = progress;
     }

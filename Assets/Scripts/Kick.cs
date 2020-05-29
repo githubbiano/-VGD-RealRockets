@@ -7,11 +7,12 @@ public class Kick : MonoBehaviour
     //Hitbox Status
     private bool isHitboxActive;
     public GameObject cc;
-    public CharacterManager charman;
+    private CharacterManager charman;
     // Start is called before the first frame update
     void Start()
     {
         isHitboxActive = false;
+        charman = GameObject.FindGameObjectWithTag("CharController").GetComponent<CharacterManager>();
     }
 
     // Update is called once per frame

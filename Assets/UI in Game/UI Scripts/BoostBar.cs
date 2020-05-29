@@ -32,7 +32,7 @@ public class BoostBar : MonoBehaviour
     private void OnGUI()
     {
         
-        GUI.TextArea(new Rect(Screen.width - 70, Screen.height - 40, 60, 20), boost + " / " + boostMax);
+        GUI.Box(new Rect(Screen.width - 70, Screen.height - 40, 60, 20), boost + " / " + boostMax);
         GUI.Box(new Rect(Screen.width-50, Screen.height - 50, 20, -Screen.height / 3), "");
 
         if(boost>0)

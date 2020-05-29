@@ -200,7 +200,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 206770095}
   m_FillRect: {fileID: 1017700618}
   m_HandleRect: {fileID: 206770094}
@@ -238,7 +238,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fillTime: 2
-  slider: {fileID: 46657713}
   progressText: {fileID: 650962564}
 --- !u!1 &176182510
 GameObject:
@@ -656,13 +655,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 650962564}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b0e78aeb22e8a904b937eaeacc3e2de3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   fillTime: 10
-  slider: {fileID: 0}
   progressText: {fileID: 650962564}
 --- !u!1 &882929207
 GameObject:

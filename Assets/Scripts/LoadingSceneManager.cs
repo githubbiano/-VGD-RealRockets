@@ -13,6 +13,7 @@ public class LoadingSceneManager : MonoBehaviour
     public GameObject mainCamera;
     public GameObject camera;
     public string scena;
+    private bool done;
   
 
 
@@ -23,7 +24,8 @@ public class LoadingSceneManager : MonoBehaviour
         startTime = Time.time;
         endTime = 20f;
         timeToSwitchCamera = 10f;
-        
+        scena = "SampleScene";
+        done = false;
     }
 
     // Update is called once per frame
@@ -43,10 +45,11 @@ public class LoadingSceneManager : MonoBehaviour
         }
 
         
-        if (Time.time - startTime >= endTime)
+        if (Time.time - startTime >= endTime && !done)
         {
             manager.LoadNextScene(scena);
             manager.UnloadScene("LoadingScene");
+            done = true;
             //SceneManager.LoadSceneAsync(2);
         }
     }

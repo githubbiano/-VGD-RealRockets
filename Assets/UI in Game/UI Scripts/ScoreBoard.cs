@@ -48,8 +48,8 @@ public class ScoreBoard : MonoBehaviour
         GUI.skin = scoreBoard;
         GUI.Box(new Rect((Screen.width/2)-120, 10, 240, 120),"");
         GUI.skin = punteggi;
-        GUI.TextArea(new Rect((Screen.width / 2) - 100, 50, 100, 50), scoreRed+"");
-        GUI.TextArea(new Rect((Screen.width / 2)+5, 50, 100, 50), scoreBlue+ "");
+        GUI.Box(new Rect((Screen.width / 2) - 100, 40, 100, 50), scoreRed+"");
+        GUI.Box(new Rect((Screen.width / 2)+5, 40, 100, 50), scoreBlue+ "");
         GUI.skin = cronometro;
         GUI.Box(new Rect((Screen.width / 2)-25, 40, 50, 50), "5:00");
     }

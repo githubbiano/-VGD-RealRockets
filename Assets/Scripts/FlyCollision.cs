@@ -6,11 +6,12 @@ public class FlyCollision : MonoBehaviour
 {
     public CharacterControls cc;
     private bool doneFlag;
-    public CharacterManager charman;
+    private CharacterManager charman;
     // Start is called before the first frame update
     void Start()
     {
         doneFlag = false;
+        charman = GameObject.FindGameObjectWithTag("CharController").GetComponent<CharacterManager>();
     }
 
     // Update is called once per frame
