@@ -31,7 +31,7 @@ public class MatchLoader : MonoBehaviour
     public void changeText()
     {
         Debug.Log(slider.value);
-        //value = (int)(slider.value * 100f);
+        value = (int)(slider.value * 100f);
         string progress = value.ToString() +"%";    //((int)slider.value * 100f).ToString() + "%";
         progressText.GetComponent<Text>().text = progress;
     }
