@@ -6,17 +6,19 @@ using UnityEngine.SceneManagement;
 public class MatchManager : MonoBehaviour
 {
     // Start is called before the first frame update
-    float startTime;
-    float matchTime;
+    private float startTime;
+    private float matchTime;
+    private int goalBlu;
+    private int goalRosso;
 
     GameManager manager;
-
+    private bool first;
     //int scoreCasa, scoreTrasferta;
     void Start()
     {
         manager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
-        startTime = Time.time;
-        matchTime = 20f;
+        first = false;
+        matchTime = 500f;
 
         //scoreCasa = 0;
         //scoreTrasferta = 0;
@@ -25,16 +27,35 @@ public class MatchManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Time.time - startTime >= matchTime)
+        if (manager.getCurrentScene().Equals("MenuScene"))
         {
-
-            //manager.LoadNextScene("MenuScene");
-            manager.LoadScene("MenuScene");
-            manager.UnloadScene("SimpleScene");
-            //Termina partita
-            //SceneManager.UnloadSceneAsync("SampleScene");
-            //SceneManager.LoadScene("MenuScene");
+            first = true;
+        }
+            if (manager.getCurrentScene().Equals("SampleScene"))
+        {
+            if (first)
+            {
+                goalBlu = 0;
+                goalRosso = 0;
+                startTime = Time.time;
+                first = false;
+                //portaBlu = GameObject.FindGameObjectWithTag("PortaBlu");
+                //portaRossa = GameObject.FindGameObjectWithTag("PortaRossa");
+            }
+            if (Time.time - startTime >= matchTime) //condizione di end game
+            {
+                manager.LoadNextScene("MenuScene");
+                manager.UnloadScene("SampleScene");
+            }
         }
 
+    }
+    public void GoalRosso()
+    {
+        goalRosso++;
+    }
+    public void GoalBlu()
+    {
+        goalBlu++;
     }
 }

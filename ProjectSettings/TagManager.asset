@@ -9,6 +9,10 @@ TagManager:
   - Field
   - NoClip
   - ball
+  - PortaBlu
+  - PortaRossa
+  - GoalPoint
+  - MatchManager
   layers:
   - Default
   - TransparentFX

@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
 
+        Physics.gravity = new Vector3(0, -3f, 0);
+
         gravity = 120.0f;
         string mainScene = "MenuScene";//Debug scene
         LoadNextScene(mainScene);
@@ -39,6 +41,11 @@ public class GameManager : MonoBehaviour
     {
         Scene sc = SceneManager.GetSceneByName(scene);
         SceneManager.UnloadSceneAsync(sc);
+    }
+
+    public string getCurrentScene()
+    {
+        return SceneManager.GetActiveScene().name;
     }
 
     public IEnumerator LoadScene(string scene) //Utile per capire quando una scena può essere settata come attiva, la scena da controllare viene passata in input come stringa ed appena è pronta viene

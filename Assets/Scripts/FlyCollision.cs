@@ -7,9 +7,11 @@ public class FlyCollision : MonoBehaviour
     public CharacterControls cc;
     private bool doneFlag;
     private CharacterManager charman;
+    private Animator anim;
     // Start is called before the first frame update
     void Start()
     {
+        anim = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Animator>();
         doneFlag = false;
         charman = GameObject.FindGameObjectWithTag("CharController").GetComponent<CharacterManager>();
     }
@@ -24,14 +26,15 @@ public class FlyCollision : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
+        print("Collisione");
         if (collision.gameObject.CompareTag("ball") && cc.isFlying() && !doneFlag)
         {
             Debug.Log("SphereColliderHit");
 
             doneFlag = true;
+            anim.SetTrigger("tiroAlVolo");
             cc.landing();
             Vector3 dir = collision.GetContact(0).point - transform.position;
-            Debug.DrawLine(gameObject.transform.position, collision.gameObject.transform.position, Color.red, 20.0f);
             dir = -dir.normalized;
             Rigidbody rb = collision.gameObject.GetComponent<Rigidbody>();
             rb.AddForce(dir * charman.getAirShotStrength(), ForceMode.Impulse);

@@ -63,6 +63,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\EventHandlerNnpc.cs" />
+    <Compile Include="Assets\Goal.cs" />
+    <Compile Include="Assets\KickNpc.cs" />
+    <Compile Include="Assets\Mountain Terrain\Misc\CameraDefault.cs" />
+    <Compile Include="Assets\MovimentoAI.cs" />
     <Compile Include="Assets\Scripts\ButtonManager.cs" />
     <Compile Include="Assets\Scripts\CameraTurning.cs" />
     <Compile Include="Assets\Scripts\CharacterControls.cs" />

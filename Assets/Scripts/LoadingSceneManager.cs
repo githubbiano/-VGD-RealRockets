@@ -22,8 +22,8 @@ public class LoadingSceneManager : MonoBehaviour
     {
         manager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
         startTime = Time.time;
-        endTime = 20f;
-        timeToSwitchCamera = 10f;
+        endTime = 5f;
+        timeToSwitchCamera = 2.5f;
         scena = "SampleScene";
         done = false;
     }

@@ -243,14 +243,14 @@ public class CharacterControls : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(newDir);
         }
     }
-    private void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-        if (hit.gameObject.CompareTag("ball") && !fly&& !doneFlag)
-        {
-            doneFlag = true;
-            Rigidbody rb = hit.gameObject.GetComponent<Rigidbody>();
-            rb.AddForce(transform.forward, ForceMode.Impulse);
-        }
+    //private void OnControllerColliderHit(ControllerColliderHit hit)
+    //{
+    //    if (hit.gameObject.CompareTag("ball") && !fly&& !doneFlag)
+    //    {
+    //        doneFlag = true;
+    //        Rigidbody rb = hit.gameObject.GetComponent<Rigidbody>();
+    //        rb.AddForce(transform.forward, ForceMode.Impulse);
+    //  }
         //if (hit.gameObject.CompareTag("ball") && fly&& !doneFlag)
         //{
         //    doneFlag = true;
@@ -260,6 +260,15 @@ public class CharacterControls : MonoBehaviour
         //    Rigidbody rb = hit.gameObject.GetComponent<Rigidbody>();
         //    rb.AddForce(dir * 1000, ForceMode.Acceleration);
         //}
+    //}
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.gameObject.CompareTag("ball") && !fly)
+        {
+            Rigidbody rb = hit.gameObject.GetComponent<Rigidbody>();
+            rb.velocity = transform.forward * 10;
+        }
     }
 
     public bool isLocked()
@@ -286,5 +295,9 @@ public class CharacterControls : MonoBehaviour
     public bool grounded()
     {
         return cc.isGrounded;
+    }
+    public float getFuel()
+    {
+        return currFuel;
     }
 }

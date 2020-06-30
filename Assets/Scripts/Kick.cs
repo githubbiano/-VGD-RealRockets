@@ -22,7 +22,7 @@ public class Kick : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("ball")&& isHitboxActive)
+        if (other.gameObject.CompareTag("ball") && isHitboxActive)
         {
             Rigidbody rb = other.gameObject.GetComponent<Rigidbody>();
             rb.AddForce(cc.transform.forward*charman.getLandShotStrength() + cc.transform.up*1000, ForceMode.Acceleration);
