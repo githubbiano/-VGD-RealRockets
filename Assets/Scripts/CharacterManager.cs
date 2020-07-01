@@ -19,8 +19,8 @@ public class CharacterManager : MonoBehaviour
         jumpSpeed = 30.0f;
         speed = 10.0f;
         maxFuel = 100;
-        depletionRate = 5;
-        refillRate = 3;
+        depletionRate = 20;
+        refillRate = 8;
         landShotStrength = 1000;
         airShotStrength = 30;
         rocketSpeed = speed * 2;

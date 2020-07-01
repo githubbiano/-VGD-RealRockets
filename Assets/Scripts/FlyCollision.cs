@@ -26,7 +26,6 @@ public class FlyCollision : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        print("Collisione");
         if (collision.gameObject.CompareTag("ball") && cc.isFlying() && !doneFlag)
         {
             Debug.Log("SphereColliderHit");

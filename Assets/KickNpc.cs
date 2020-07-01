@@ -24,7 +24,6 @@ public class KickNpc : MonoBehaviour
     {
         if (other.gameObject.CompareTag("ball") && isHitboxActive)
         {
-            print(charman.getLandShotStrength());
             Rigidbody rb = other.gameObject.GetComponent<Rigidbody>();
             rb.AddForce((ob.transform.forward *charman.getLandShotStrength()) + ob.transform.up * 1000, ForceMode.Acceleration);
         }

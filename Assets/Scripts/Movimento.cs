@@ -34,7 +34,7 @@ public class Movimento : MonoBehaviour
 
     void Start()
     {
-        Debug.Log(speed);
+
         runAnimSpeedMult = 1.8f;//run animation speed
         anim = GetComponent<Animator>();
         anim.SetFloat("runMul", runAnimSpeedMult);//set run animation speed
@@ -108,7 +108,6 @@ public class Movimento : MonoBehaviour
         }
         else
         {
-            print("vola");
             if (Input.GetKeyDown(KeyCode.Space) && !isJumping)
             {
                 anim.SetTrigger(hash_trigger_deveSaltare);

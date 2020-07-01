@@ -11,24 +11,35 @@ public class ScoreBoard : MonoBehaviour
     public GUISkin punteggi;
     public GUISkin cronometro;
 
+    MatchManager mm;
+
     public int scoreRed;
     public int scoreBlue;
     public Timer tempo;
+    public int matchTime;
+    public int startTime;
 
 
     // Start is called before the first frame update
     void Start()
-    {   
+    {
+        mm = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
         scoreBlue = 0;
         scoreRed = 0;
-        tempo = new Timer(300);
+        startTime = (int)Time.time;
+        tempo = new Timer(mm.getMatchTime());
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(scoreBlue<0)
+        scoreBlue = mm.getGolBlu();
+        scoreRed = mm.getGolRosso();
+        
+        matchTime = (int)mm.getMatchTime()-((int)Time.time - startTime);
+        //tempo = mm.getMatchTime();
+        /*if(scoreBlue<0)
         {
             scoreBlue = 0;
         }
@@ -36,7 +47,7 @@ public class ScoreBoard : MonoBehaviour
         if(scoreRed<0)
         {
             scoreRed = 0;
-        }
+        }*/
     }
 
     void OnGUI()
@@ -51,6 +62,6 @@ public class ScoreBoard : MonoBehaviour
         GUI.Box(new Rect((Screen.width / 2) - 100, 40, 100, 50), scoreRed+"");
         GUI.Box(new Rect((Screen.width / 2)+5, 40, 100, 50), scoreBlue+ "");
         GUI.skin = cronometro;
-        GUI.Box(new Rect((Screen.width / 2)-25, 40, 50, 50), "5:00");
+        GUI.Box(new Rect((Screen.width / 2)-25, 40, 50, 50), matchTime.ToString()/*mm.getMatchTime().ToString() "5:00"*/);
     }
 }

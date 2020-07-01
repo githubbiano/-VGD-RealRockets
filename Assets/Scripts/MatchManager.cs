@@ -18,7 +18,7 @@ public class MatchManager : MonoBehaviour
     {
         manager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
         first = false;
-        matchTime = 500f;
+        matchTime = 120f;
 
         //scoreCasa = 0;
         //scoreTrasferta = 0;
@@ -30,11 +30,13 @@ public class MatchManager : MonoBehaviour
         if (manager.getCurrentScene().Equals("MenuScene"))
         {
             first = true;
+            Cursor.visible = true;
         }
             if (manager.getCurrentScene().Equals("SampleScene"))
         {
             if (first)
             {
+                Cursor.visible = false;
                 goalBlu = 0;
                 goalRosso = 0;
                 startTime = Time.time;
@@ -57,5 +59,25 @@ public class MatchManager : MonoBehaviour
     public void GoalBlu()
     {
         goalBlu++;
+    }
+
+    public int getGolBlu()
+    {
+        return this.goalRosso;
+    }
+
+    public int getGolRosso()
+    {
+        return this.goalBlu;
+    }
+
+    public float getMatchTime()
+    {
+        return this.matchTime;
+    }
+
+    public float getStartTime()
+    {
+        return this.startTime;
     }
 }

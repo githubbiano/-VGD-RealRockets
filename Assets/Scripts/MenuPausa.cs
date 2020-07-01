@@ -5,8 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class MenuPausa : MonoBehaviour
 {
+    private GameManager gm;
     public static bool GiocoInPausa = false;
     public GameObject UIMenuPausa;
+
+    private void Start()
+    {
+        gm= GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
+    }
 
     // Update is called once per frame
     void Update()
@@ -30,23 +36,30 @@ public class MenuPausa : MonoBehaviour
         UIMenuPausa.SetActive(false);
         Time.timeScale = 1F;
         GiocoInPausa = false;
+        Cursor.visible = false;
     }
     void Pause()
     {
         UIMenuPausa.SetActive(true);
         Time.timeScale = 0F;
         GiocoInPausa = true;
+        Cursor.visible = true;
     }
 
-    public void Riavvia()
-    {
-        Debug.Log("Riavvio in corso ...");
-    }
+    //public void Riavvia()
+    //{
+
+    //    gm.LoadNextScene("MenuScene");
+    //    gm.UnloadScene("SampleScene");
+    //    gm.UnloadScene("MenuScene");
+    //    gm.LoadNextScene("SampleScene");
+    //}
 
     public void Esci()
     {
-        Debug.Log("Uscita in corso...");
-        Application.Quit();
+        Time.timeScale = 1F;
+        gm.LoadNextScene("MenuScene");
+        gm.UnloadScene("SampleScene");
     }
 
 }

@@ -22,8 +22,8 @@ public class LoadingSceneManager : MonoBehaviour
     {
         manager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
         startTime = Time.time;
-        endTime = 5f;
-        timeToSwitchCamera = 2.5f;
+        endTime = 20f;
+        timeToSwitchCamera = 10f;
         scena = "SampleScene";
         done = false;
     }
@@ -31,8 +31,6 @@ public class LoadingSceneManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-       
         if (Time.time - startTime >= timeToSwitchCamera)
         {
             mainCamera.SetActive(false);
